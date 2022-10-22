@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android --no-packager; yarn start",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --no-packager; yarn start",
     "start": "STANDALONE=1 react-native webpack-start --port 8081",
     "start:app": "react-native webpack-start --port 9000",
     "test": "jest",
