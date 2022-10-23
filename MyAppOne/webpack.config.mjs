@@ -19,7 +19,7 @@ const STANDALONE = Boolean(process.env.STANDALONE);
  * @param env Environment options passed from either Webpack CLI or React Native CLI
  *            when running with `react-native start/bundle`.
  */
-export default env => {
+export default (env) => {
   const {
     mode = 'development',
     context = Repack.getDirname(import.meta.url),
@@ -52,15 +52,7 @@ export default env => {
     devServer.hmr = false;
   }
 
-  /**
-   * Depending on your Babel configuration you might want to keep it.
-   * If you don't use `env` in your Babel config, you can remove it.
-   *
-   * Keep in mind that if you remove it you should set `BABEL_ENV` or `NODE_ENV`
-   * to `development` or `production`. Otherwise your production code might be compiled with
-   * in development mode by Babel.
-   */
-  process.env.BABEL_ENV = mode;
+  console.log({ hmr2222: devServer && devServer.hmr });
 
   return {
     mode,
@@ -106,12 +98,13 @@ export default env => {
      * React Native app use them when bundling the `.ipa`/`.apk`, they need to be copied over with
      * `Repack.OutputPlugin`, which is configured by default inside `Repack.RepackPlugin`.
      */
+
     output: {
       clean: true,
       path: path.join(dirname, 'build', platform),
       filename: 'index.bundle',
       chunkFilename: '[name].chunk.bundle',
-      publicPath: Repack.getPublicPath({platform, devServer}),
+      publicPath: Repack.getPublicPath({ platform, devServer }),
     },
     /**
      * Configures optimization of the built bundle.
@@ -195,7 +188,7 @@ export default env => {
          */
         {
           test: Repack.getAssetExtensionsRegExp(
-            Repack.ASSET_EXTENSIONS.filter(ext => ext !== 'svg'),
+            Repack.ASSET_EXTENSIONS.filter((ext) => ext !== 'svg'),
           ),
           use: {
             loader: '@callstack/repack/assets-loader',

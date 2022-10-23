@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android --no-packager; yarn start",
-    "ios": "react-native run-ios --no-packager; yarn start",
-    "start": "STANDALONE=1 react-native webpack-start --port 8081",
+    "android": "react-native run-android --no-packager && yarn start",
+    "ios": "react-native run-ios --no-packager && yarn start",
+    "start": "STANDALONE=1 react-native webpack-start --port 8081 mode development hmr true",
     "start:app": "react-native webpack-start --port 9000",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
