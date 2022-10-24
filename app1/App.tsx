@@ -20,6 +20,7 @@ import {
 } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { ColorText } from './src';
 
 const Section: React.FC<
   PropsWithChildren<{
@@ -75,6 +76,8 @@ const App = () => {
             Edit <Text style={styles.highlight}>Application 1</Text> to change
             this screen and then come back to see your edits.
           </Section>
+          <ColorText />
+          <ColorText text="Component text" />
         </View>
       </ScrollView>
     </SafeAreaView>

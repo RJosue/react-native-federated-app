@@ -12,8 +12,8 @@ import {
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-const App1 = React.lazy(() => Federated.importModule('app1', './App'));
-const App2 = React.lazy(() => Federated.importModule('app2', './App'));
+const App1 = React.lazy(() => Federated.importModule('app1', './App1'));
+const App2 = React.lazy(() => Federated.importModule('app2', './App2'));
 
 const Section: React.FC<
   PropsWithChildren<{

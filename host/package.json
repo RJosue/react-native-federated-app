@@ -8,7 +8,8 @@
     "start": "react-native webpack-start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "install:pods": "cd ios && pod install"
+    "install:pods": "cd ios && pod install",
+    "ports": "adb -s emulator-5554 reverse tcp:8081 tcp:8081 && adb -s emulator-5554 reverse tcp:9000 tcp:9000 && adb -s emulator-5554 reverse tcp:9001 tcp:9001 && adb -s emulator-5554 reverse tcp:9002 tcp:9002"
   },
   "dependencies": {
     "react": "18.1.0",
