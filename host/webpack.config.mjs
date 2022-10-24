@@ -2,8 +2,6 @@ import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
 import * as Repack from '@callstack/repack';
 
-const STANDALONE = Boolean(process.env.STANDALONE);
-
 /**
  * More documentation, installation, usage, motivation and differences with Metro is available at:
  * https://github.com/callstack/repack/blob/main/README.md
@@ -20,11 +18,12 @@ const STANDALONE = Boolean(process.env.STANDALONE);
  *            when running with `react-native start/bundle`.
  */
 export default (env) => {
+  console.log(env);
   const {
     mode = 'development',
     context = Repack.getDirname(import.meta.url),
-    entry = './index.js',
-    platform = process.env.PLATFORM || 'android',
+    entry = './index.tsx',
+    platform = process.env.PLATFORM,
     minimize = mode === 'production',
     devServer = undefined,
     bundleFilename = undefined,
@@ -48,6 +47,20 @@ export default (env) => {
    * to check its value to avoid accessing undefined value,
    * otherwise an error might occur.
    */
+  if (devServer) {
+    devServer.hmr = false;
+  }
+
+  /**
+   * Depending on your Babel configuration you might want to keep it.
+   * If you don't use `env` in your Babel config, you can remove it.
+   *
+   * Keep in mind that if you remove it you should set `BABEL_ENV` or `NODE_ENV`
+   * to `development` or `production`. Otherwise your production code might be compiled with
+   * in development mode by Babel.
+   */
+  process.env.BABEL_ENV = mode;
+
   return {
     mode,
     /**
@@ -92,7 +105,6 @@ export default (env) => {
      * React Native app use them when bundling the `.ipa`/`.apk`, they need to be copied over with
      * `Repack.OutputPlugin`, which is configured by default inside `Repack.RepackPlugin`.
      */
-
     output: {
       clean: true,
       path: path.join(dirname, 'build', platform),
@@ -182,7 +194,9 @@ export default (env) => {
          */
         {
           test: Repack.getAssetExtensionsRegExp(
-            Repack.ASSET_EXTENSIONS.filter((ext) => ext !== 'svg'),
+            Repack.ASSET_EXTENSIONS.filter(
+              (ext) => ext !== 'svg' && ext !== 'ico',
+            ),
           ),
           use: {
             loader: '@callstack/repack/assets-loader',
@@ -235,24 +249,16 @@ export default (env) => {
       }),
 
       new Repack.plugins.ModuleFederationPlugin({
-        name: 'app1',
-        exposes: {
-          './App1': './App.tsx',
-        },
+        name: 'host',
         shared: {
           react: {
             ...Repack.Federated.SHARED_REACT,
-            eager: STANDALONE, // to be figured out
             requiredVersion: '18.1.0',
           },
           'react-native': {
             ...Repack.Federated.SHARED_REACT_NATIVE,
-            eager: STANDALONE, // to be figured out
             requiredVersion: '0.70.3',
           },
-        },
-        remotes: {
-          module1: 'module1@dynamic',
         },
       }),
     ],

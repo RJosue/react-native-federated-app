@@ -243,6 +243,7 @@ export default (env) => {
           react: {
             ...Repack.Federated.SHARED_REACT,
             eager: STANDALONE, // to be figured out
+            requiredVersion: '18.1.0',
           },
           'react-native': {
             ...Repack.Federated.SHARED_REACT_NATIVE,
