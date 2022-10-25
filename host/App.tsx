@@ -30,11 +30,19 @@ function App2Wrapper() {
 
 const App = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer independent>
       <Tab.Navigator initialRouteName="Host">
         <Tab.Screen name="Host" component={HostApp} />
-        <Tab.Screen name="App1" component={App1Wrapper} />
-        <Tab.Screen name="App2" component={App2Wrapper} />
+        <Tab.Screen
+          name="App1"
+          // options={{ lazy: false }}
+          component={App1Wrapper}
+        />
+        <Tab.Screen
+          name="App2"
+          // options={{ lazy: false }}
+          component={App2Wrapper}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );

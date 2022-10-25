@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, { useEffect, type PropsWithChildren } from 'react';
+import React, { type PropsWithChildren } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -20,7 +20,6 @@ import {
 } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { ColorText } from './src';
 
 const Section: React.FC<
   PropsWithChildren<{
@@ -52,16 +51,12 @@ const Section: React.FC<
   );
 };
 
-const App = () => {
+const Feed = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-
-  useEffect(() => {
-    console.log('demo');
-  }, []);
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -76,12 +71,10 @@ const App = () => {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="Application 1">
-            Edit <Text style={styles.highlight}>Application 1</Text> to change
-            this screen and then come back to see your edits.
+          <Section title="App 2">
+            Edit <Text style={styles.highlight}>Feed</Text> to change this
+            screen and then come back to see your edits.
           </Section>
-          <ColorText />
-          <ColorText text="Component text" />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -107,4 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Feed;
