@@ -239,7 +239,9 @@ export default (env) => {
       new Repack.plugins.ModuleFederationPlugin({
         name: 'app2',
         exposes: {
-          './App2': './App.tsx',
+          // './App2': './App.tsx',
+          './Feed': './src/Feed.tsx',
+          './Message': './src/Message.tsx',
         },
         shared: {
           react: {

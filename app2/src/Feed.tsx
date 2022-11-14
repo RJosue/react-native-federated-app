@@ -8,8 +8,10 @@
  * @format
  */
 
+import { ParamListBase, NavigationProp } from '@react-navigation/native';
 import React, { type PropsWithChildren } from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -51,7 +53,11 @@ const Section: React.FC<
   );
 };
 
-const Feed = () => {
+const Feed = ({
+  navigation,
+}: {
+  navigation: NavigationProp<ParamListBase>;
+}) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -75,6 +81,22 @@ const Feed = () => {
             Edit <Text style={styles.highlight}>Feed</Text> to change this
             screen and then come back to see your edits.
           </Section>
+          <Button
+            title="Go to Host"
+            onPress={() => navigation.navigate('Host')}
+          />
+          <Button
+            title="Go to App1"
+            onPress={() => navigation.navigate('App1')}
+          />
+          <Button
+            title="Go to App2 Message"
+            onPress={() => navigation.navigate('App2', { screen: 'Message' })}
+          />
+          <Button
+            title="Go to App2 Feed"
+            onPress={() => navigation.navigate('App2', { screen: 'Feed' })}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
