@@ -1,7 +1,18 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigatorScreenParams } from '@react-navigation/native';
+// import { NavigationContainer } from '@react-navigation/native';
+import { StackNavigationOptions } from '@react-navigation/stack';
+import {
+  NavigatorScreenParams,
+  ParamListBase,
+  TypedNavigator,
+  StackNavigationState,
+  DefaultNavigatorOptions,
+  StackRouterOptions,
+} from '@react-navigation/native';
+import {
+  StackNavigationConfig,
+  StackNavigationEventMap,
+} from '@react-navigation/stack/lib/typescript/src/types';
 import Feed from '../Feed';
 import Messages from '../Message';
 
@@ -16,23 +27,36 @@ export type MainNavigation = {
   App2: NavigatorScreenParams<App2Stack>;
 } & App2Stack;
 
-const Stack = createStackNavigator<MainNavigation>();
-
-const MainNavigation = () => {
+const MainNavigation = ({
+  Stack,
+}: {
+  Stack: TypedNavigator<
+    MainNavigation,
+    StackNavigationState<ParamListBase>,
+    StackNavigationOptions,
+    StackNavigationEventMap,
+    ({
+      id,
+      initialRouteName,
+      children,
+      screenListeners,
+      screenOptions,
+      ...rest
+    }: DefaultNavigatorOptions<
+      ParamListBase,
+      StackNavigationState<ParamListBase>,
+      StackNavigationOptions,
+      StackNavigationEventMap
+    > &
+      StackRouterOptions &
+      StackNavigationConfig) => JSX.Element
+  >;
+}) => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="App2"
-          component={() => (
-            <Stack.Navigator initialRouteName="Feed">
-              <Stack.Screen name="Feed" component={Feed} />
-              <Stack.Screen name="Message" component={Messages} />
-            </Stack.Navigator>
-          )}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen name="Feed" component={Feed} />
+      <Stack.Screen name="Message" component={Messages} />
+    </Stack.Navigator>
   );
 };
 
