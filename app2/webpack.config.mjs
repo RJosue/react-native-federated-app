@@ -148,6 +148,7 @@ export default (env) => {
             /node_modules(.*[/\\])+abort-controller/,
             /node_modules(.*[/\\])+@callstack\/repack/,
             /node_modules(.*[/\\])+react-native-gesture-handler/,
+            /node_modules(.*[/\\])+react-native-device-info/,
             /node_modules(.*[/\\])+@react-navigation\/stack/,
           ],
           use: 'babel-loader',
@@ -253,6 +254,9 @@ export default (env) => {
             ...Repack.Federated.SHARED_REACT_NATIVE,
             eager: STANDALONE, // to be figured out
             requiredVersion: '0.70.3',
+          },
+          'react-native-device-info': {
+            ...Repack.Federated.SHARED_REACT_NATIVE,
           },
         },
         remotes: {

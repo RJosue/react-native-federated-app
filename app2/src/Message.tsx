@@ -5,6 +5,7 @@ import { Button, StyleSheet, Text, useColorScheme, View } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { MainNavigation } from './routes/MainNavigation';
+import { getApplicationName } from 'react-native-device-info';
 
 export type HostScreenNavigationProp = StackNavigationProp<
   MainNavigation,
@@ -63,6 +64,12 @@ const Message = ({
       <Button
         title="Go to App2 Feed"
         onPress={() => navigation.navigate('App2', { screen: 'Feed' })}
+      />
+      <Button
+        title="test"
+        onPress={() => {
+          console.log(getApplicationName());
+        }}
       />
     </View>
   );
