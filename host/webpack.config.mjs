@@ -22,7 +22,7 @@ export default (env) => {
   const {
     mode = 'development',
     context = Repack.getDirname(import.meta.url),
-    entry = './index.tsx',
+    entry = './index.js',
     platform = process.env.PLATFORM,
     minimize = mode === 'production',
     devServer = undefined,
@@ -94,9 +94,9 @@ export default (env) => {
        * dependency. You might need it when using workspaces/monorepos or unconventional project
        * structure. For simple/typical project you won't need it.
        */
-      // alias: {
-      //   'react-native': reactNativePath,
-      // },
+      alias: {
+        'react-native': reactNativePath,
+      },
     },
     /**
      * Configures output.
@@ -159,6 +159,10 @@ export default (env) => {
             /node_modules(.*[/\\])+metro/,
             /node_modules(.*[/\\])+abort-controller/,
             /node_modules(.*[/\\])+@callstack\/repack/,
+            /node_modules(.*[/\\])+react-native-gesture-handler/,
+            /node_modules(.*[/\\])+react-native-reanimated/,
+            /node_modules(.*[/\\])+@react-native-masked-view\/masked-view/,
+            /node_modules(.*[/\\])+@react-navigation\/stack/,
           ],
           use: 'babel-loader',
         },

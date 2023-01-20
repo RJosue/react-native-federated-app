@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, { type PropsWithChildren } from 'react';
+import React, { useEffect, type PropsWithChildren } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -58,6 +58,10 @@ const App = () => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  useEffect(() => {
+    console.log('demo');
+  }, []);
 
   return (
     <SafeAreaView style={backgroundStyle}>

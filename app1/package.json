@@ -2,6 +2,9 @@
   "name": "app1",
   "version": "0.0.1",
   "private": true,
+  "installConfig": {
+    "hoistingLimits": "workspaces"
+  },
   "scripts": {
     "android": "react-native run-android --no-packager && yarn start",
     "ios": "react-native run-ios --no-packager && yarn start",
@@ -9,7 +12,10 @@
     "start:app": "react-native webpack-start --port 9000",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "install:pods": "cd ios && pod install"
+    "install:pods": "cd ios && pod install && cd ..",
+    "build": "yarn build:android && yarn build:ios",
+    "build:android": "react-native webpack-bundle --platform android --dev false --entry-file index.js --bundle-output output/android/index.android.bundle --assets-dest output/android/",
+    "build:ios": "yarn install:pods && react-native webpack-bundle --platform ios --dev false --entry-file index.js --bundle-output output/ios/index.ios.bundle --assets-dest output/ios/"
   },
   "dependencies": {
     "react": "18.1.0",

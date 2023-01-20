@@ -1,5 +1,8 @@
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { type PropsWithChildren } from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -9,6 +12,7 @@ import {
   View,
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { MainStack } from './routes';
 
 const Section: React.FC<
   PropsWithChildren<{
@@ -40,12 +44,16 @@ const Section: React.FC<
   );
 };
 
+export type HostScreenNavigationProp = StackNavigationProp<MainStack, 'Host'>;
+
 const HostApp = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  const navigation = useNavigation<HostScreenNavigationProp>();
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -64,6 +72,22 @@ const HostApp = () => {
             Edit <Text style={styles.highlight}>Host</Text> to change this
             screen and then come back to see your edits.
           </Section>
+          <Button
+            title="Go to Host"
+            onPress={() => navigation.navigate('Host')}
+          />
+          <Button
+            title="Go to App1"
+            onPress={() => navigation.navigate('App1')}
+          />
+          <Button
+            title="Go to App2 Message"
+            onPress={() => navigation.navigate('App2', { screen: 'Message' })}
+          />
+          <Button
+            title="Go to App2 Feed"
+            onPress={() => navigation.navigate('App2', { screen: 'Feed' })}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

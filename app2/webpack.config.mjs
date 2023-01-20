@@ -147,6 +147,10 @@ export default (env) => {
             /node_modules(.*[/\\])+metro/,
             /node_modules(.*[/\\])+abort-controller/,
             /node_modules(.*[/\\])+@callstack\/repack/,
+            /node_modules(.*[/\\])+react-native-gesture-handler/,
+            /node_modules(.*[/\\])+react-native-device-info/,
+            /node_modules(.*[/\\])+@react-navigation\/stack/,
+            /node_modules(.*[/\\])+@nassa\/video-call/,
           ],
           use: 'babel-loader',
         },
@@ -238,6 +242,8 @@ export default (env) => {
         name: 'app2',
         exposes: {
           './App2': './App.tsx',
+          './Feed': './src/Feed.tsx',
+          './Message': './src/Message.tsx',
         },
         shared: {
           react: {
@@ -249,6 +255,12 @@ export default (env) => {
             ...Repack.Federated.SHARED_REACT_NATIVE,
             eager: STANDALONE, // to be figured out
             requiredVersion: '0.70.3',
+          },
+          'react-native-device-info': {
+            ...Repack.Federated.SHARED_REACT_NATIVE,
+          },
+          '@nassa/video-call': {
+            ...Repack.Federated.SHARED_REACT_NATIVE,
           },
         },
         remotes: {
