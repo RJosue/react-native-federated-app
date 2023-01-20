@@ -1,11 +1,11 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import React, { type PropsWithChildren } from 'react';
+import React, { useState, type PropsWithChildren } from 'react';
 import { Button, StyleSheet, Text, useColorScheme, View } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { MainNavigation } from './routes/MainNavigation';
-import { getApplicationName } from 'react-native-device-info';
+import { answerCall, getAPNSToken } from '@nassa/video-call';
 
 export type HostScreenNavigationProp = StackNavigationProp<
   MainNavigation,
@@ -46,15 +46,24 @@ const Message = ({
 }: {
   navigation: NavigationProp<ParamListBase>;
 }) => {
+  const [number, setNumber] = useState(0);
+  const [apns, setApns] = useState('apns');
+
+  const getApns = async () => {
+    const app = await getAPNSToken();
+    setApns(app);
+  };
+
   return (
-    <View
-      style={{
-        backgroundColor: 'lightGray',
-      }}>
+    <View>
       <Section title="Messages">
         Edit <Text style={styles.highlight}>Messages App 2</Text> to change this
         screen and then come back to see your edits.
       </Section>
+
+      <Text style={styles.highlight}>Number: {number}</Text>
+      <Text style={styles.highlight}>Apns: {apns}</Text>
+
       <Button title="Go to Host" onPress={() => navigation.navigate('Host')} />
       <Button title="Go to App1" onPress={() => navigation.navigate('App1')} />
       <Button
@@ -66,9 +75,17 @@ const Message = ({
         onPress={() => navigation.navigate('App2', { screen: 'Feed' })}
       />
       <Button
-        title="test"
+        title="Update number"
         onPress={() => {
-          console.log(getApplicationName());
+          let i = number + 1;
+          setNumber(i);
+        }}
+      />
+      <Button title="getAPNS" onPress={getApns} />
+      <Button
+        title="Video Call"
+        onPress={() => {
+          answerCall('', '', '');
         }}
       />
     </View>

@@ -1,0 +1,31 @@
+{
+  "name": "super-app-federation",
+  "version": "0.0.0",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "bootstrap:pods": "yarn workspaces foreach run install:pods",
+    "start": "yarn concurrently -P 'yarn:start:*(!standalone) {1}'",
+    "start:host": "yarn workspace host run start:app",
+    "start:app1": "yarn workspace app1 run start:app",
+    "start:app2": "yarn workspace app2 run start:app",
+    "host:ios": "yarn bootstrap:pods && yarn concurrently -P 'yarn:start:*(!standalone) {1}' 'yarn workspace host run ios '",
+    "host:android": "yarn workspace host run android && yarn start",
+    "app1:ios": "yarn workspace app1 run ios",
+    "app1:android": "yarn workspace app1 run android",
+    "app2:ios": "yarn workspace app2 run ios",
+    "app2:android": "yarn workspace app2 run android",
+    "bootstrap": "yarn && yarn bootstrap:pods",
+    "build:app1": "yarn workspace app1 run build",
+    "build:app2": "yarn workspace app2 run build",
+    "clean": "find ./ -type d -name 'node_modules' -exec rm -rf '{}' +"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.2"
+  },
+  "workspaces": [
+    "app1",
+    "app2",
+    "host"
+  ]
+}

@@ -150,6 +150,7 @@ export default (env) => {
             /node_modules(.*[/\\])+react-native-gesture-handler/,
             /node_modules(.*[/\\])+react-native-device-info/,
             /node_modules(.*[/\\])+@react-navigation\/stack/,
+            /node_modules(.*[/\\])+@nassa\/video-call/,
           ],
           use: 'babel-loader',
         },
@@ -256,6 +257,9 @@ export default (env) => {
             requiredVersion: '0.70.3',
           },
           'react-native-device-info': {
+            ...Repack.Federated.SHARED_REACT_NATIVE,
+          },
+          '@nassa/video-call': {
             ...Repack.Federated.SHARED_REACT_NATIVE,
           },
         },
