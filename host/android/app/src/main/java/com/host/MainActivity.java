@@ -1,4 +1,4 @@
-package com.host;
+package com.assanet.movil;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

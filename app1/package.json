@@ -18,6 +18,8 @@
     "build:ios": "yarn install:pods && react-native webpack-bundle --platform ios --dev false --entry-file index.js --bundle-output output/ios/index.ios.bundle --assets-dest output/ios/"
   },
   "dependencies": {
+    "@react-native-community/cli": "^10.1.3",
+    "@react-native-community/cli-types": "^10.0.0",
     "react": "18.1.0",
     "react-native": "0.70.3"
   },

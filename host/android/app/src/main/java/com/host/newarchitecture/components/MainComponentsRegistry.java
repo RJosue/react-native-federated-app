@@ -1,4 +1,4 @@
-package com.host.newarchitecture.components;
+package com.assanet.movil.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

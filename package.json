@@ -10,7 +10,7 @@
     "start:app1": "yarn workspace app1 run start:app",
     "start:app2": "yarn workspace app2 run start:app",
     "host:ios": "yarn bootstrap:pods && yarn concurrently -P 'yarn:start:*(!standalone) {1}' 'yarn workspace host run ios '",
-    "host:android": "yarn workspace host run android && yarn start",
+    "host:android": "yarn ports && yarn concurrently -P 'yarn workspace host run android' 'yarn:start'",
     "app1:ios": "yarn workspace app1 run ios",
     "app1:android": "yarn workspace app1 run android",
     "app2:ios": "yarn workspace app2 run ios",
@@ -18,7 +18,8 @@
     "bootstrap": "yarn && yarn bootstrap:pods",
     "build:app1": "yarn workspace app1 run build",
     "build:app2": "yarn workspace app2 run build",
-    "clean": "find ./ -type d -name 'node_modules' -exec rm -rf '{}' +"
+    "clean": "find ./ -type d -name 'node_modules' -exec rm -rf '{}' +",
+    "ports": "adb -s emulator-5554 reverse tcp:8081 tcp:8081 && adb -s emulator-5554 reverse tcp:9000 tcp:9000 && adb -s emulator-5554 reverse tcp:9001 tcp:9001 && adb -s emulator-5554 reverse tcp:9002 tcp:9002"
   },
   "devDependencies": {
     "concurrently": "^7.2.2"
