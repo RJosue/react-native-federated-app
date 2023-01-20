@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "320465674729",
+    "project_id": "health-customer---dev",
+    "storage_bucket": "health-customer---dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320465674729:android:347a75efb7db07270beb78",
+        "android_client_info": {
+          "package_name": "com.assanet.movil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "320465674729-lsljd1ilnlr95m16k6ptlfdmukhold4s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJdndBn0twky5-7cFs49zYTGLkpA7C1Wc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "320465674729-lsljd1ilnlr95m16k6ptlfdmukhold4s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "320465674729-61tnjf2blptjflhfnd4sjv32e7gcgtvq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.assanet.movil"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320465674729:android:93e54f282cae8b380beb78",
+        "android_client_info": {
+          "package_name": "com.assanet.movil.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "320465674729-lsljd1ilnlr95m16k6ptlfdmukhold4s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJdndBn0twky5-7cFs49zYTGLkpA7C1Wc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "320465674729-lsljd1ilnlr95m16k6ptlfdmukhold4s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "320465674729-61tnjf2blptjflhfnd4sjv32e7gcgtvq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.assanet.movil"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

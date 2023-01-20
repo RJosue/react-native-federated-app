@@ -1,6 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import React, { type PropsWithChildren } from 'react';
+import React, {
+  useEffect,
+  type PropsWithChildren,
+  useCallback,
+  useState,
+} from 'react';
 import {
   Button,
   SafeAreaView,
@@ -12,6 +17,7 @@ import {
   View,
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import messaging from '@react-native-firebase/messaging';
 import { MainStack } from './routes';
 
 const Section: React.FC<
@@ -46,7 +52,20 @@ const Section: React.FC<
 
 export type HostScreenNavigationProp = StackNavigationProp<MainStack, 'Host'>;
 
+async function requestUserPermission() {
+  const authStatus = await messaging().requestPermission();
+  const enabled =
+    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+  if (enabled) {
+    console.log('Authorization status:', authStatus);
+  }
+  return;
+}
+
 const HostApp = () => {
+  const [fbToken, setToken] = useState('---token---');
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -54,6 +73,23 @@ const HostApp = () => {
   };
 
   const navigation = useNavigation<HostScreenNavigationProp>();
+
+  const logToken = useCallback(async () => {
+    try {
+      await requestUserPermission();
+      console.log('______');
+      const token = await messaging().getToken();
+      console.log({ token });
+      console.log('dd');
+      setToken(token);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    logToken();
+  }, [logToken]);
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -72,6 +108,7 @@ const HostApp = () => {
             Edit <Text style={styles.highlight}>Host</Text> to change this
             screen and then come back to see your edits.
           </Section>
+          <Text style={styles.highlight}>Firebase Token: {fbToken}</Text>
           <Button
             title="Go to Host"
             onPress={() => navigation.navigate('Host')}
@@ -87,6 +124,12 @@ const HostApp = () => {
           <Button
             title="Go to App2 Feed"
             onPress={() => navigation.navigate('App2', { screen: 'Feed' })}
+          />
+          <Button
+            title="get token"
+            onPress={() => {
+              logToken();
+            }}
           />
         </View>
       </ScrollView>

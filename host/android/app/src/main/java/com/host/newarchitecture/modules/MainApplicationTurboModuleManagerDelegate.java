@@ -1,4 +1,4 @@
-package com.host.newarchitecture.modules;
+package com.assanet.movil.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;
