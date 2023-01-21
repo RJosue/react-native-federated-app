@@ -13,9 +13,9 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "install:pods": "cd ios && pod install && cd ..",
-    "build": "yarn build:android && yarn build:ios",
-    "build:android": "react-native webpack-bundle --platform android  --dev false --entry-file index.js --bundle-output output/android/index.android.bundle --assets-dest output/android/",
-    "build:ios": "yarn install:pods && react-native webpack-bundle --platform ios --dev false --entry-file index.js --bundle-output output/ios/index.ios.bundle --assets-dest output/ios/"
+    "build": "yarn concurrently -P 'yarn:build:*(!standalone) {1}'",
+    "build:android": "npx react-native webpack-bundle --config webpack.config.mjs --platform android --dev false --entry-file index.js --bundle-output output/android/index.android.bundle --assets-dest output/android/",
+    "build:ios": "yarn install:pods && npx react-native webpack-bundle --config webpack.config.mjs --platform ios --dev false --entry-file index.js --bundle-output output/ios/index.ios.bundle --assets-dest output/ios/"
   },
   "dependencies": {
     "@nassa/video-call": "^0.3.0-103626",
@@ -47,6 +47,7 @@
     "@typescript-eslint/parser": "^5.37.0",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.5",
+    "concurrently": "^7.6.0",
     "eslint": "^7.32.0",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "0.72.3",

@@ -3,11 +3,18 @@ import { ScriptManager, Script, Federated } from '@callstack/repack/client';
 import App from './App';
 import { name as appName } from './app.json';
 
+const localUrl = {
+  app1: 'http://localhost:9000/[name][ext]',
+  app2: 'http://localhost:9001/[name][ext]',
+};
+
+const remoteUrl = {
+  app1: `https://super-app-federation.s3.us-east-2.amazonaws.com/app1/${Platform.OS}/[name][ext]`,
+  app2: `https://super-app-federation.s3.us-east-2.amazonaws.com/app2/${Platform.OS}/[name][ext]`,
+};
+
 const resolveURL = Federated.createURLResolver({
-  containers: {
-    app1: 'http://localhost:9000/[name][ext]',
-    app2: 'http://localhost:9001/[name][ext]',
-  },
+  containers: __DEV__ ? localUrl : remoteUrl,
 });
 
 ScriptManager.shared.addResolver(async (scriptId, caller) => {
