@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HostApp from '../../HostApp';
 import { MainStack } from '.';
 import { createStackNavigator } from '@react-navigation/stack';
+import linking from '../../firebase/deepLinking';
 
 const App1 = React.lazy(() => Federated.importModule('app1', './App1'));
 const App2 = React.lazy(() => Federated.importModule('app2', './App2'));
@@ -34,7 +35,7 @@ function App2Wrapper() {
 
 const HostNavigationContainer = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <Tab.Navigator initialRouteName="Host">
         <Tab.Screen name="Host" component={HostApp} />
         <Tab.Screen name="App1" component={App1Wrapper} />
