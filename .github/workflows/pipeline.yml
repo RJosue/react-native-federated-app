@@ -103,16 +103,25 @@ jobs:
     steps:
       - name: "Checkout Directory"
         uses: actions/checkout@v3
-      - name: Download artifacts
+      - name: Download Android artifacts
         uses: actions/download-artifact@v3
         with: 
           name: android-build
-          path: build
-      - name: 'Echo download path'
-        run: echo ${{steps.download.outputs.download-path}}
+          path: artifacts
       
-      - name: "list"
+      - name: "Artifacts list"
         run: |
+          cd artifacts
+          ls -R
+
+      - name: 'Move Builds'
+        run: |
+          mkdir build
+          mv artifacts/app1/build/android build/app1/android
+          mv artifacts/app2/build/android build/app2/android
+          mv artifacts/app1/build/ios build/app1/ios
+          mv artifacts/app2/build/ios build/app2/ios
+          cd build
           ls -R
 
       - name: "Configure AWS Credentials"
@@ -123,4 +132,4 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       - name: "Send builds to S3 Bucket"
         run: |
-          aws s3 cp app1/build/ s3://${{ secrets.AWS_S3_BUCKET }}/app1/ --recursive
+          aws s3 cp build/ s3://${{ secrets.AWS_S3_BUCKET }}/ --recursive
