@@ -10,11 +10,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [14.x]
-
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -22,10 +20,18 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
-      - run: yarn install
-      - run: yarn build
+      - name: Create .yarnrc.yaml
+        run: |
+          echo "npmAlwaysAuth: true" >> ~/.yarnrc.yml
+          echo "npmRegistryServer: ${{ secrets.NPM_REGISTRY_SERVER }}" >> ~/.yarnrc.yml
+          echo "npmAuthIdent: ${{ secrets.NPM_AUTH_IDENT }}" >> ~/.yarnrc.yml
+      - name: Install Dependencies
+        run: yarn install
+      - name: Build Apps
+        run: yarn build
 
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
