@@ -22,7 +22,7 @@
     "build:app2:android": "yarn workspace app2 run build:android",
     "build:app1:ios": "yarn workspace app1 run build:ios",
     "build:app2:ios": "yarn workspace app2 run build:ios",
-    "build:ios": "yarn concurrently -P yarn:build:*(!standalone):ios {1}'",
+    "build:ios": "yarn concurrently -P 'yarn:build:*(!standalone):ios {1}'",
     "build:android": "yarn concurrently -P 'yarn:build:*(!standalone):android {1}'",
     "build": "yarn concurrently -P 'yarn:build-*(!standalone) {1}'",
     "clean": "find ./ -type d -name 'node_modules' -exec rm -rf '{}' +",
