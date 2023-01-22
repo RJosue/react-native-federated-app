@@ -8,8 +8,8 @@ on:
     branches: ["master"]
 
 jobs:
-  build:
-    runs-on: macos-latest
+  install-dependencies:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [14.x]
@@ -25,17 +25,82 @@ jobs:
           echo "npmAlwaysAuth: true" >> ~/.yarnrc.yml
           echo "npmRegistryServer: ${{ secrets.NPM_REGISTRY_SERVER }}" >> ~/.yarnrc.yml
           echo "npmAuthIdent: ${{ secrets.NPM_AUTH_IDENT }}" >> ~/.yarnrc.yml
-      - name: Install Dependencies
+      - name: Install dependencies
         run: yarn install
-      - name: Build Apps
-        continue-on-error: true
-        run: yarn build
+      - name: Cache Dependencies
+        uses: actions/cache@v2
+        id: node_modules_cache
+        with:
+          path: ./node_modules
+          key: ${{ github.sha }}
 
-  deploy:
-    needs: build
+  build-android:
+    needs: install-dependencies
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
     steps:
       - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+      - name: Cache build Android
+        uses: actions/cache@v2
+        id: node_modules_cache
+        with:
+          path: |
+            ./node_modules/*
+            ./app1/build/android/*
+            ./app2/build/android/*
+          key: ${{ github.sha }}
+      - name: Build Apps
+        continue-on-error: true
+        run: yarn build:android
+
+  build-ios:
+    needs: install-dependencies
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+      - name: Cache build iOS
+        uses: actions/cache@v2
+        id: node_modules_cache
+        with:
+          path: |
+            ./node_modules/*
+            ./app1/build/ios/*
+            ./app2/build/ios/*
+          key: ${{ github.sha }}
+      - name: Build Apps
+        continue-on-error: true
+        run: yarn build:ios
+
+  deploy:
+    needs: [build-android, build-ios]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Cache
+        uses: actions/cache@v2
+        id: node_modules_cache
+        with:
+          path: |
+            ./node_modules/*
+            ./app1/build/ios/*
+            ./app1/build/ios/*
+            ./app2/build/android/*
+            ./app2/build/android/*
+          key: ${{ github.sha }}
       - name: "Configure AWS Credentials"
         uses: "aws-actions/configure-aws-credentials@v1"
         with:
@@ -44,5 +109,4 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       - name: "Send builds to S3 Bucket"
         run: |
-          aws s3 cp app1/build/ s3://${{ secrets.AWS_S3_BUCKET }}/app1/ --recursive
-          aws s3 cp app2/build/ s3://${{ secrets.AWS_S3_BUCKET }}/app2/ --recursive
+          aws s3 cp ./app1/build/ s3://${{ secrets.AWS_S3_BUCKET }}/app1/ --recursive
