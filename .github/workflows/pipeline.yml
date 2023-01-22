@@ -63,6 +63,11 @@ jobs:
             **/node_modules
             app1/build/android
             app2/build/android
+      - name: List
+        run: |
+          ls
+          la
+          ls node_modules
       - name: Build Apps
         continue-on-error: true
         run: yarn build:android
