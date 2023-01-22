@@ -25,10 +25,10 @@ jobs:
         uses: actions/cache@v2
         id: node_modules_cache
         with:
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
           path: |
             node_modules
             **/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Create .yarnrc.yaml
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
     steps:
       - name: "Checkout Directory"
         uses: actions/checkout@v3
@@ -57,12 +57,12 @@ jobs:
         uses: actions/cache@v2
         id: node_modules_cache
         with:
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
           path: |
             node_modules
             **/node_modules
             app1/build/android
             app2/build/android
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
       - name: Build Apps
         continue-on-error: true
         run: yarn build:android
@@ -101,6 +101,7 @@ jobs:
         uses: actions/cache@v2
         id: node_modules_cache
         with:
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
           path: |
             node_modules
             **/node_modules
@@ -108,7 +109,6 @@ jobs:
             app1/build/ios
             app2/build/android
             app2/build/android
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
       - name: "Configure AWS Credentials"
         uses: "aws-actions/configure-aws-credentials@v1"
         with:
