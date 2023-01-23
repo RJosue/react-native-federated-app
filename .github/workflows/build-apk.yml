@@ -92,23 +92,16 @@ jobs:
 
       - name: Create builds folders
         run: |
-          mkdir artifacts 
           mkdir build
 
       - name: Download Android artifacts
         uses: actions/download-artifact@v3
         with:
           name: android-apk
-          path: artifacts
+          path: build
 
       - name: "Artifacts list"
         run: |
-          cd artifacts
-          ls -R
-
-      - name: "Move Builds"
-        run: |
-          mv artifacts/host/android/app/build/outputs/apk/release/app-release.apk
           cd build
           ls -R
 
