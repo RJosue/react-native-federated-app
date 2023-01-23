@@ -13,6 +13,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
   useColorScheme,
   View,
 } from 'react-native';
@@ -77,10 +78,8 @@ const HostApp = () => {
   const logToken = useCallback(async () => {
     try {
       await requestUserPermission();
-      console.log('______');
       const token = await messaging().getToken();
       console.log({ token });
-      console.log('dd');
       setToken(token);
     } catch (error) {
       console.log(error);
@@ -108,7 +107,9 @@ const HostApp = () => {
             Edit <Text style={styles.highlight}>Host</Text> to change this
             screen and then come back to see your edits.
           </Section>
-          <Text style={styles.highlight}>Firebase Token: {fbToken}</Text>
+          <Section title="Firebase Token">
+            <TextInput value={fbToken} />
+          </Section>
           <Button
             title="Go to Host"
             onPress={() => navigation.navigate('Host')}
@@ -125,12 +126,7 @@ const HostApp = () => {
             title="Go to App2 Feed"
             onPress={() => navigation.navigate('App2', { screen: 'Feed' })}
           />
-          <Button
-            title="get token"
-            onPress={() => {
-              logToken();
-            }}
-          />
+          <Button title="Get Firebase Token" onPress={logToken} />
         </View>
       </ScrollView>
     </SafeAreaView>

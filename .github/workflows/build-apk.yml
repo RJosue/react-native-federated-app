@@ -1,0 +1,122 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Build APK 🤖
+
+on:
+  push:
+    branches:
+      - "master"
+    paths:
+      - host/**
+
+jobs:
+  install-dependencies:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: "Checkout Directory"
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+
+      - name: Cache Dependencies
+        id: cache_dependencies
+        uses: actions/cache@v2
+        with:
+          key: node_modules-${{ hashFiles('**/yarn.lock') }}
+          path: ~/.yarn/cache
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Create .yarnrc.yaml
+        run: |
+          echo "npmAlwaysAuth: true" >> ~/.yarnrc.yml
+          echo "npmRegistryServer: ${{ secrets.NPM_REGISTRY_SERVER }}" >> ~/.yarnrc.yml
+          echo "npmAuthIdent: ${{ secrets.NPM_AUTH_IDENT }}" >> ~/.yarnrc.yml
+
+      - name: Install dependencies
+        if: steps.cache_dependencies.outputs.cache-hit != 'true'
+        run: yarn install
+
+  build:
+    needs: install-dependencies
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: Checkout Directory
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        id: node_modules_cache
+        with:
+          key: node_modules-${{ hashFiles('**/yarn.lock') }}
+          path: ~/.yarn/cache
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build Apps
+        run: |
+          cd host/android
+          ./gradlew assembleRelease
+
+      - name: Upload apk
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-apk
+          path: host/android/app/build/outputs/apk/releases/app-releases.apk
+
+  deploy:
+    needs: build-android-apk
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Directory
+        uses: actions/checkout@v3
+
+      - name: Create builds folders
+        run: |
+          mkdir artifacts 
+          mkdir build
+
+      - name: Download Android artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: android-build
+          path: artifacts
+
+      - name: "Artifacts list"
+        run: |
+          cd artifacts
+          ls -R
+
+      - name: "Move Builds"
+        run: |
+          mv artifacts/host/android/app/build/outputs/apk/releases/app-releases.apk build
+          cd build
+          ls -R
+
+      - name: "Configure AWS Credentials"
+        uses: "aws-actions/configure-aws-credentials@v1"
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: "Send builds to S3 Bucket"
+        run: |
+          aws s3 cp build/ s3://${{ secrets.AWS_S3_BUCKET }}/host --recursive
