@@ -8,8 +8,9 @@ on:
     branches:
       - "master"
     paths:
-      - "app1"
-      - "app2"
+      - "app1/**"
+      - "app2/**"
+      - "module1/**"
 
 jobs:
   install-dependencies:
@@ -82,6 +83,7 @@ jobs:
           path: |
             app1/build/android/
             app2/build/android/
+            module1/build/android/
 
   # build-ios:
   #   needs: install-dependencies
@@ -133,6 +135,7 @@ jobs:
           mkdir -p artifacts
           mkdir -p build/app1/android
           mkdir -p build/app2/android
+          mkdir -p build/module1/android
 
       # - name: Download iOS artifacts
       #   uses: actions/download-artifact@v3
@@ -155,6 +158,7 @@ jobs:
         run: |
           mv artifacts/app1/build/android/** build/app1/android
           mv artifacts/app2/build/android/** build/app2/android
+          mv artifacts/module1/build/android/** build/module1/android
           cd build
           ls -R
 

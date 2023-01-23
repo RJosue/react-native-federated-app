@@ -97,6 +97,10 @@ const Feed = ({
             title="Go to App2 Feed"
             onPress={() => navigation.navigate('App2', { screen: 'Feed' })}
           />
+          <Button
+            title="Go to Module 1"
+            onPress={() => navigation.navigate('App2', { screen: 'Module1' })}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -10,19 +10,25 @@
     "start:host": "yarn workspace host run start:app",
     "start:app1": "yarn workspace app1 run start:app",
     "start:app2": "yarn workspace app2 run start:app",
+    "start:module1": "yarn workspace module1 run start:app",
     "host:ios": "yarn bootstrap:pods && yarn concurrently -P 'yarn:start:*(!standalone) {1}' 'yarn workspace host run ios'",
     "host:android": "yarn ports && yarn concurrently -P 'yarn workspace host run android' 'yarn:start'",
     "app1:ios": "yarn workspace app1 run ios",
     "app1:android": "yarn workspace app1 run android",
     "app2:ios": "yarn workspace app2 run ios",
     "app2:android": "yarn workspace app2 run android",
+    "module1:ios": "yarn workspace module1 run android",
+    "module1:android": "yarn workspace module1 run android",
     "bootstrap": "yarn install && yarn bootstrap:pods",
     "build-app1": "yarn workspace app1 run build",
     "build-app2": "yarn workspace app2 run build",
-    "build:app1:android": "yarn workspace app1 run build:android",
-    "build:app2:android": "yarn workspace app2 run build:android",
+    "build-module1": "yarn workspace module1 run build",
     "build:app1:ios": "yarn workspace app1 run build:ios",
+    "build:app1:android": "yarn workspace app1 run build:android",
     "build:app2:ios": "yarn workspace app2 run build:ios",
+    "build:app2:android": "yarn workspace app2 run build:android",
+    "build:module1:ios": "yarn workspace module1 run build:ios",
+    "build:module1:android": "yarn workspace module1 run build:ios",
     "build:ios": "yarn concurrently -P 'yarn:build:*(!standalone):ios {1}'",
     "build:android": "yarn concurrently -P 'yarn:build:*(!standalone):android {1}'",
     "build": "yarn concurrently -P 'yarn:build-*(!standalone) {1}'",
@@ -35,6 +41,7 @@
   "workspaces": [
     "app1",
     "app2",
-    "host"
+    "host",
+    "module1"
   ]
 }

@@ -1,7 +1,14 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect, useState, type PropsWithChildren } from 'react';
-import { Button, StyleSheet, Text, useColorScheme, View } from 'react-native';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  useColorScheme,
+  View,
+} from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { MainNavigation } from './routes/MainNavigation';
@@ -54,8 +61,7 @@ const Message = ({
 }: {
   navigation: NavigationProp<ParamListBase>;
 }) => {
-  const [number, setNumber] = useState(0);
-  const [apns, setApns] = useState('apns');
+  const [apns, setApns] = useState('***APNS***');
 
   const { loading, error, data, refetch } = useQuery(query, {
     fetchPolicy: 'no-cache',
@@ -86,9 +92,10 @@ const Message = ({
         Edit <Text style={styles.highlight}>Messages App 2</Text> to change this
         screen and then come back to see your edits.
       </Section>
-
-      <Text style={styles.highlight}>Number: {number}</Text>
-      <Text style={styles.highlight}>Apns: {apns}</Text>
+      <Section title="APNS TOKEN" />
+      <View style={{ paddingHorizontal: 20 }}>
+        <TextInput value={apns} />
+      </View>
       <Button title="Go Back" onPress={() => navigation.goBack()} />
       <Button title="Go to Host" onPress={() => navigation.navigate('Host')} />
       <Button title="Go to App1" onPress={() => navigation.navigate('App1')} />
@@ -100,14 +107,7 @@ const Message = ({
         title="Go to App2 Feed"
         onPress={() => navigation.navigate('App2', { screen: 'Feed' })}
       />
-      <Button
-        title="Update number"
-        onPress={() => {
-          let i = number + 1;
-          setNumber(i);
-        }}
-      />
-      <Button title="getAPNS" onPress={getApns} />
+      <Button title="Get APNS Token" onPress={getApns} />
       <Button
         title="Video Call"
         onPress={() => {

@@ -263,9 +263,6 @@ export default (env) => {
             ...Repack.Federated.SHARED_REACT_NATIVE,
           },
         },
-        remotes: {
-          module1: 'module1@dynamic',
-        },
       }),
     ],
   };
