@@ -66,7 +66,7 @@ async function requestUserPermission() {
 }
 
 const HostApp = () => {
-  const [fbToken, setToken] = useState('---TOKEN---');
+  const [fbToken, setToken] = useState('***TOKEN***');
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {

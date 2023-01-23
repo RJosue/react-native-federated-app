@@ -81,7 +81,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: android-apk
-          path: host/android/app/build/outputs/apk/release/app-releases.apk
+          path: host/android/app/build/outputs/apk/release/app-release.apk
 
   deploy:
     needs: build
