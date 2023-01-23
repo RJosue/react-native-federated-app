@@ -108,7 +108,7 @@ jobs:
 
       - name: "Move Builds"
         run: |
-          mv artifacts/host/android/app/build/outputs/apk/releases/app-releases.apk build
+          mv artifacts/host/android/app/build/outputs/apk/release/app-release.apk
           cd build
           ls -R
 
