@@ -76,14 +76,10 @@ const HostApp = () => {
   const navigation = useNavigation<HostScreenNavigationProp>();
 
   const logToken = useCallback(async () => {
-    try {
-      await requestUserPermission();
-      const token = await messaging().getToken();
-      console.log({ token });
-      setToken(token);
-    } catch (error) {
-      console.log(error);
-    }
+    await requestUserPermission();
+    const token = await messaging().getToken();
+    console.log({ token });
+    setToken(token);
   }, []);
 
   useEffect(() => {

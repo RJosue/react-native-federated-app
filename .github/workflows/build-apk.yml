@@ -82,7 +82,7 @@ jobs:
           path: host/android/app/build/outputs/apk/releases/app-releases.apk
 
   deploy:
-    needs: build-android-apk
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Directory

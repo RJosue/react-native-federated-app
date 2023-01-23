@@ -5,7 +5,11 @@ name: Pipeline 🚀
 
 on:
   push:
-    branches: ["master"]
+    branches:
+      - "master"
+    paths:
+      - "app1"
+      - "app2"
 
 jobs:
   install-dependencies:
