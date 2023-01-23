@@ -28,7 +28,7 @@
     "build:app2:ios": "yarn workspace app2 run build:ios",
     "build:app2:android": "yarn workspace app2 run build:android",
     "build:module1:ios": "yarn workspace module1 run build:ios",
-    "build:module1:android": "yarn workspace module1 run build:ios",
+    "build:module1:android": "yarn workspace module1 run build:android",
     "build:ios": "yarn concurrently -P 'yarn:build:*(!standalone):ios {1}'",
     "build:android": "yarn concurrently -P 'yarn:build:*(!standalone):android {1}'",
     "build": "yarn concurrently -P 'yarn:build-*(!standalone) {1}'",
