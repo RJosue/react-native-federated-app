@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "bootstrap:pods": "yarn workspaces foreach run install:pods",
+    "bootstrap:pods:update": "yarn workspaces foreach run install:pods:update",
     "start": "yarn concurrently -P 'yarn:start:*(!standalone) {1}'",
     "start:host": "yarn workspace host run start:app",
     "start:app1": "yarn workspace app1 run start:app",
@@ -15,7 +16,7 @@
     "app1:android": "yarn workspace app1 run android",
     "app2:ios": "yarn workspace app2 run ios",
     "app2:android": "yarn workspace app2 run android",
-    "bootstrap": "yarn && yarn bootstrap:pods",
+    "bootstrap": "yarn install && yarn bootstrap:pods",
     "build-app1": "yarn workspace app1 run build",
     "build-app2": "yarn workspace app2 run build",
     "build:app1:android": "yarn workspace app1 run build:android",

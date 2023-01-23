@@ -57,7 +57,7 @@ buck-out/
 **/fastlane/test_output
 
 # Bundle artifact
-*.jsbundle
+# *.jsbundle
 
 # Ruby / CocoaPods
 /ios/Pods/

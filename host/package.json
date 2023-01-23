@@ -12,6 +12,7 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "install:pods": "cd ios && pod install",
+    "install:pods:update": "cd ios && pod install --repo-update && cd ..",
     "build:ios": "react-native webpack-bundle --dev false --platform ios --entry-file ./index.js --bundle-output ./ios/main.jsbundle"
   },
   "dependencies": {
