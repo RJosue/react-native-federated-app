@@ -14,6 +14,8 @@ import {
 import MainNavigation, {
   MainNavigation as Navigation,
 } from './src/routes/MainNavigation';
+import { ApolloProvider } from '@apollo/client';
+import { client } from './src/graphql';
 
 const App = ({
   Stack,
@@ -40,7 +42,11 @@ const App = ({
       StackNavigationConfig) => JSX.Element
   >;
 }) => {
-  return <MainNavigation Stack={Stack} />;
+  return (
+    <ApolloProvider client={client}>
+      <MainNavigation Stack={Stack} />
+    </ApolloProvider>
+  );
 };
 
 export default App;

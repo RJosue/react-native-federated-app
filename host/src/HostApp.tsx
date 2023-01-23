@@ -21,6 +21,8 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import messaging from '@react-native-firebase/messaging';
 import { MainStack } from './routes';
 
+import { gql, useQuery } from '@apollo/client';
+
 const Section: React.FC<
   PropsWithChildren<{
     title: string;
@@ -64,10 +66,19 @@ async function requestUserPermission() {
   }
   return;
 }
-
+const query = gql`
+  {
+    policiesMedicalExpenses(clientCodeCore: "123") {
+      clientCodeCore
+    }
+  }
+`;
 const HostApp = () => {
   const [fbToken, setToken] = useState('***TOKEN***');
   const isDarkMode = useColorScheme() === 'dark';
+  const { loading, error, data, refetch } = useQuery(query, {
+    fetchPolicy: 'no-cache',
+  });
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -83,8 +94,22 @@ const HostApp = () => {
   }, []);
 
   useEffect(() => {
+    if (!loading) {
+      console.log('host', data);
+    }
+  }, [data, loading]);
+
+  useEffect(() => {
+    console.log(error);
+  }, [error]);
+
+  useEffect(() => {
     logToken();
   }, [logToken]);
+
+  useEffect(() => {
+    refetch();
+  });
 
   return (
     <SafeAreaView style={backgroundStyle}>
