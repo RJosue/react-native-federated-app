@@ -251,9 +251,6 @@ export default (env) => {
             requiredVersion: '0.70.3',
           },
         },
-        remotes: {
-          module1: 'module1@dynamic',
-        },
       }),
     ],
   };

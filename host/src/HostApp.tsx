@@ -128,9 +128,10 @@ const HostApp = () => {
             Edit <Text style={styles.highlight}>Host</Text> to change this
             screen and then come back to see your edits.
           </Section>
-          <Section title="Firebase Token">
+          <Section title="Firebase Token" />
+          <View style={{ paddingHorizontal: 20 }}>
             <TextInput value={fbToken} />
-          </Section>
+          </View>
           <Button
             title="Go to Host"
             onPress={() => navigation.navigate('Host')}
