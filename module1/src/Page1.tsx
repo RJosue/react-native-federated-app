@@ -68,6 +68,8 @@ function Page1({
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  console.log('PAGE1');
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
