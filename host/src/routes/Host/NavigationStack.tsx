@@ -8,6 +8,7 @@ import HostApp from '../../HostApp';
 import { MainStack } from '.';
 import { createStackNavigator } from '@react-navigation/stack';
 import linking from '../../firebase/deepLinking';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App1 = React.lazy(() => Federated.importModule('app1', './App1'));
 const App2 = React.lazy(() => Federated.importModule('app2', './App2'));
@@ -26,10 +27,12 @@ function App1Wrapper() {
 
 function App2Wrapper() {
   return (
-    <React.Suspense
-      fallback={<Text style={{ textAlign: 'center' }}>Loading...</Text>}>
-      <App2 Stack={Stack} />
-    </React.Suspense>
+    <SafeAreaProvider>
+      <React.Suspense
+        fallback={<Text style={{ textAlign: 'center' }}>Loading...</Text>}>
+        <App2 Stack={Stack} />
+      </React.Suspense>
+    </SafeAreaProvider>
   );
 }
 
@@ -39,7 +42,11 @@ const HostNavigationContainer = () => {
       <Tab.Navigator initialRouteName="Host">
         <Tab.Screen name="Host" component={HostApp} />
         <Tab.Screen name="App1" component={App1Wrapper} />
-        <Tab.Screen name="App2" component={App2Wrapper} />
+        <Tab.Screen
+          name="App2"
+          options={{ headerShown: false }}
+          component={App2Wrapper}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );

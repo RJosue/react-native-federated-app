@@ -151,6 +151,13 @@ export default (env) => {
             /node_modules(.*[/\\])+react-native-device-info/,
             /node_modules(.*[/\\])+@react-navigation\/stack/,
             /node_modules(.*[/\\])+@nassa\/video-call/,
+            /node_modules(.*[/\\])+react-native-svg/,
+            /node_modules(.*[/\\])+css-select/,
+            /node_modules(.*[/\\])+css-tree/,
+            /node_modules(.*[/\\])+@apollo\/client/,
+            /node_modules(.*[/\\])+react-native-elements/,
+            /node_modules(.*[/\\])+react-native-vector-icons/,
+            /node_modules(.*[/\\])+react-native-linear-gradient/,
           ],
           use: 'babel-loader',
         },
@@ -241,7 +248,7 @@ export default (env) => {
       new Repack.plugins.ModuleFederationPlugin({
         name: 'app2',
         exposes: {
-          './App2': './App.tsx',
+          './App2': './src/routes/MainNavigation.tsx',
           './Feed': './src/Feed.tsx',
           './Message': './src/Message.tsx',
         },
@@ -260,6 +267,18 @@ export default (env) => {
             ...Repack.Federated.SHARED_REACT_NATIVE,
           },
           '@nassa/video-call': {
+            ...Repack.Federated.SHARED_REACT_NATIVE,
+          },
+          'react-native-svg': {
+            ...Repack.Federated.SHARED_REACT_NATIVE,
+          },
+          'react-native-elements': {
+            ...Repack.Federated.SHARED_REACT_NATIVE,
+          },
+          'react-native-vector-icons': {
+            ...Repack.Federated.SHARED_REACT_NATIVE,
+          },
+          'react-native-linear-gradient': {
             ...Repack.Federated.SHARED_REACT_NATIVE,
           },
         },
