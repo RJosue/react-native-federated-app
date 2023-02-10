@@ -1,6 +1,6 @@
 import { Federated } from '@callstack/repack/client';
 import React from 'react';
-import { Text } from 'react-native';
+import { ActivityIndicator, StyleProp, View, ViewStyle } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -16,10 +16,22 @@ const App2 = React.lazy(() => Federated.importModule('app2', './App2'));
 const Tab = createBottomTabNavigator<MainStack>();
 const Stack = createStackNavigator<MainStack>();
 
+const style: StyleProp<ViewStyle> = {
+  flex: 1,
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: 20,
+};
+
 function App1Wrapper() {
   return (
     <React.Suspense
-      fallback={<Text style={{ textAlign: 'center' }}>Loading...</Text>}>
+      fallback={
+        <View style={style}>
+          <ActivityIndicator size="small" />
+        </View>
+      }>
       <App1 />
     </React.Suspense>
   );
@@ -29,7 +41,11 @@ function App2Wrapper() {
   return (
     <SafeAreaProvider>
       <React.Suspense
-        fallback={<Text style={{ textAlign: 'center' }}>Loading...</Text>}>
+        fallback={
+          <View style={style}>
+            <ActivityIndicator size="small" />
+          </View>
+        }>
         <App2 Stack={Stack} />
       </React.Suspense>
     </SafeAreaProvider>
@@ -39,7 +55,15 @@ function App2Wrapper() {
 const HostNavigationContainer = () => {
   return (
     <NavigationContainer linking={linking}>
-      <Tab.Navigator initialRouteName="Host">
+      <Tab.Navigator
+        initialRouteName="Host"
+        screenOptions={{
+          headerStyle: {
+            elevation: 0,
+            shadowOpacity: 0,
+            backgroundColor: '#FFF',
+          },
+        }}>
         <Tab.Screen name="Host" component={HostApp} />
         <Tab.Screen name="App1" component={App1Wrapper} />
         <Tab.Screen
