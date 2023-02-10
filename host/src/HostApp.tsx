@@ -22,6 +22,8 @@ import messaging from '@react-native-firebase/messaging';
 import { MainStack } from './routes';
 
 import { gql, useQuery } from '@apollo/client';
+import { SvgXml } from 'react-native-svg';
+import { major } from './svg';
 
 const Section: React.FC<
   PropsWithChildren<{
@@ -132,6 +134,7 @@ const HostApp = () => {
           <View style={{ paddingHorizontal: 20 }}>
             <TextInput value={fbToken} />
           </View>
+          <SvgXml xml={major} width={12} height={55} />
           <Button
             title="Go to Host"
             onPress={() => navigation.navigate('Host')}

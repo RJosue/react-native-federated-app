@@ -13,7 +13,6 @@ import {
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { MainNavigation } from './routes/MainNavigation';
 import { answerCall, getAPNSToken } from '@nassa/video-call';
-import { useQuery, gql } from '@apollo/client';
 export type HostScreenNavigationProp = StackNavigationProp<
   MainNavigation,
   'Message'
@@ -48,14 +47,6 @@ const Section: React.FC<
   );
 };
 
-const query = gql`
-  {
-    policiesMedicalExpenses(clientCodeCore: "123") {
-      clientCodeCore
-    }
-  }
-`;
-
 const Message = ({
   navigation,
 }: {
@@ -63,28 +54,12 @@ const Message = ({
 }) => {
   const [apns, setApns] = useState('***APNS***');
 
-  const { loading, error, data, refetch } = useQuery(query, {
-    fetchPolicy: 'no-cache',
-  });
 
   const getApns = async () => {
     const app = await getAPNSToken();
     setApns(app);
   };
 
-  useEffect(() => {
-    if (!loading) {
-      console.log('app2', data);
-    }
-  }, [data, loading]);
-
-  useEffect(() => {
-    console.log(error);
-  }, [error]);
-
-  useEffect(() => {
-    refetch();
-  });
 
   return (
     <View>

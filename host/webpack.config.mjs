@@ -163,6 +163,7 @@ export default (env) => {
             /node_modules(.*[/\\])+react-native-reanimated/,
             /node_modules(.*[/\\])+@react-native-masked-view\/masked-view/,
             /node_modules(.*[/\\])+@react-navigation\/stack/,
+            /node_modules(.*[/\\])+react-native-svg/,
           ],
           use: 'babel-loader',
         },
@@ -262,6 +263,9 @@ export default (env) => {
           'react-native': {
             ...Repack.Federated.SHARED_REACT_NATIVE,
             requiredVersion: '0.70.3',
+          },
+          'react-native-svg': {
+            ...Repack.Federated.SHARED_REACT_NATIVE,
           },
         },
       }),

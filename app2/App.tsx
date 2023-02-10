@@ -14,8 +14,8 @@ import {
 import MainNavigation, {
   MainNavigation as Navigation,
 } from './src/routes/MainNavigation';
-import { ApolloProvider } from '@apollo/client';
-import { client } from './src/graphql';
+import LocalMainNavigation from './src/routes/LocalNavigation';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App = ({
   Stack,
@@ -42,11 +42,15 @@ const App = ({
       StackNavigationConfig) => JSX.Element
   >;
 }) => {
-  return (
-    <ApolloProvider client={client}>
-      <MainNavigation Stack={Stack} />
-    </ApolloProvider>
-  );
+  if (Stack) {
+    return (
+      <SafeAreaProvider>
+        <MainNavigation Stack={Stack} />;
+      </SafeAreaProvider>
+    );
+  } else {
+    return <LocalMainNavigation />;
+  }
 };
 
 export default App;
