@@ -6,7 +6,6 @@ import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import { requestConfirmation } from '../../svg';
 import { H6, H4 } from '../../theme';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import AssistantHeader from '../../components/AssistantHeader';
 
 const styles = StyleSheet.create({
   container: { flexGrow: 1 },

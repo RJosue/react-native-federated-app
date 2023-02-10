@@ -37,6 +37,11 @@ jobs:
 
       - name: Create .yarnrc.yaml
         run: |
+          echo "npmScopes:
+                  fortawesome:
+                    npmAlwaysAuth: true
+                    npmRegistryServer: https://npm.fontawesome.com/
+                    npmAuthToken: ${{ secrets.FONT_AWESOME_AUTH }}" >> ~/.yarnrc.yml
           echo "npmAlwaysAuth: true" >> ~/.yarnrc.yml
           echo "npmRegistryServer: ${{ secrets.NPM_REGISTRY_SERVER }}" >> ~/.yarnrc.yml
           echo "npmAuthIdent: ${{ secrets.NPM_AUTH_IDENT }}" >> ~/.yarnrc.yml
