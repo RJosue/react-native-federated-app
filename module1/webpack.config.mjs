@@ -23,7 +23,7 @@ export default (env) => {
   const {
     mode = 'development',
     context = Repack.getDirname(import.meta.url),
-    entry = './index.js',
+    entry = './dsadasdsadsasad.js',
     platform = process.env.PLATFORM,
     minimize = mode === 'production',
     devServer = undefined,
