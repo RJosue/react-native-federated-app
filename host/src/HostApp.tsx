@@ -91,19 +91,15 @@ const HostApp = () => {
   const logToken = useCallback(async () => {
     await requestUserPermission();
     const token = await messaging().getToken();
-    console.log({ token });
     setToken(token);
   }, []);
 
   useEffect(() => {
     if (!loading) {
-      console.log('host', data);
     }
   }, [data, loading]);
 
-  useEffect(() => {
-    console.log(error);
-  }, [error]);
+  useEffect(() => {}, [error]);
 
   useEffect(() => {
     logToken();

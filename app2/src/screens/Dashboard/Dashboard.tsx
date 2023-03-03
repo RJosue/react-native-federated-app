@@ -1,5 +1,9 @@
 import { FlatList, StyleSheet, View } from 'react-native';
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import {
+  NavigationProp,
+  ParamListBase,
+  useNavigation,
+} from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faReceipt } from '@fortawesome/pro-light-svg-icons/faReceipt';
@@ -53,6 +57,8 @@ const Dashboard = ({
   const handlerClick = useCallback(() => {
     navigation.navigate('App2', { screen: 'RefundWelcome' });
   }, [navigation]);
+
+  useNavigation();
 
   return (
     <SafeAreaProvider>

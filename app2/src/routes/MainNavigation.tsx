@@ -1,10 +1,7 @@
 import React, { useCallback } from 'react';
-import { ActivityIndicator, StyleProp, View, ViewStyle } from 'react-native';
+import { Text } from 'react-native';
 import { Federated } from '@callstack/repack/client';
-import {
-  // CardStyleInterpolators,
-  StackNavigationOptions,
-} from '@react-navigation/stack';
+import { StackNavigationOptions } from '@react-navigation/stack';
 import {
   NavigatorScreenParams,
   ParamListBase,
@@ -75,24 +72,11 @@ const Module1 = React.lazy(() =>
   Federated.importModule('module1', './Module1'),
 );
 
-const style: StyleProp<ViewStyle> = {
-  flex: 1,
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: 20,
-};
-
 const MainNavigation = ({ Stack }: { Stack: StackType }) => {
   const Module1Wrapper = useCallback(() => {
-    console.log('Module1Wrapper');
     return (
       <React.Suspense
-        fallback={
-          <View style={style}>
-            <ActivityIndicator size="small" />
-          </View>
-        }>
+        fallback={<Text style={{ textAlign: 'center' }}>Loading...</Text>}>
         <Module1 Stack={Stack} />
       </React.Suspense>
     );
@@ -102,24 +86,9 @@ const MainNavigation = ({ Stack }: { Stack: StackType }) => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        headerTintColor: colors.white,
-        headerStyle: {
-          elevation: 0,
-          shadowOpacity: 0,
-          backgroundColor: colors.madison,
-        },
-        /**
-         * Applies a global background to all screens.
-         */
         cardStyle: {
           backgroundColor: colors.white,
         },
-        /**
-         * This forces the "sideways" navigation, regardless of operating
-         * system
-         */
-        // cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-        cardShadowEnabled: false,
       }}>
       <Stack.Screen name="Dashboard" component={Dashboard} />
       <Stack.Screen name="RefundWelcome" component={RefundWelcome} />

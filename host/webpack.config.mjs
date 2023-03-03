@@ -1,6 +1,7 @@
 import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
 import * as Repack from '@callstack/repack';
+import webpack from 'webpack';
 
 /**
  * More documentation, installation, usage, motivation and differences with Metro is available at:
@@ -18,7 +19,6 @@ import * as Repack from '@callstack/repack';
  *            when running with `react-native start/bundle`.
  */
 export default (env) => {
-  console.log(env);
   const {
     mode = 'development',
     context = Repack.getDirname(import.meta.url),
@@ -231,6 +231,9 @@ export default (env) => {
         },
       ],
     },
+    // externalsPresets: {
+    //   node: true,
+    // },
     plugins: [
       /**
        * Configure other required and additional plugins to make the bundle
@@ -253,22 +256,10 @@ export default (env) => {
         },
       }),
 
-      new Repack.plugins.ModuleFederationPlugin({
-        name: 'host',
-        shared: {
-          react: {
-            ...Repack.Federated.SHARED_REACT,
-            requiredVersion: '18.1.0',
-          },
-          'react-native': {
-            ...Repack.Federated.SHARED_REACT_NATIVE,
-            requiredVersion: '0.70.3',
-          },
-          'react-native-svg': {
-            ...Repack.Federated.SHARED_REACT_NATIVE,
-          },
-        },
-      }),
+      // new webpack.DllReferencePlugin({
+      //   context,
+      //   manifest: './manifest.json',
+      // }),
     ],
   };
 };

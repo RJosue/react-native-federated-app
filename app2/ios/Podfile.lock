@@ -25,7 +25,7 @@ PODS:
   - boost (1.76.0)
   - BVLinearGradient (2.6.2):
     - React-Core
-  - callstack-repack (3.0.1):
+  - callstack-repack (3.1.0):
     - React-Core
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
@@ -636,7 +636,7 @@ SPEC CHECKSUMS:
   AgoraRtcEngine_iOS: e6bc354af9b8b883926382b5034f18822b5303df
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
-  callstack-repack: 8b68d1e0e25794b00eadab0acbf05fb3e802b94c
+  callstack-repack: 13e4127b55d14844b0d9f7daab7d409687b9145b
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: 3b313c3fb52b597f7a9b430798e6367d2b9f07e5

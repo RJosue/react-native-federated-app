@@ -1,8 +1,7 @@
 import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
 import * as Repack from '@callstack/repack';
-
-const STANDALONE = Boolean(process.env.STANDALONE);
+import webpack from 'webpack';
 
 /**
  * More documentation, installation, usage, motivation and differences with Metro is available at:
@@ -23,8 +22,8 @@ export default (env) => {
   const {
     mode = 'development',
     context = Repack.getDirname(import.meta.url),
-    entry = './index.js',
-    platform = process.env.PLATFORM || 'android',
+    entry = './src/Message.tsx',
+    platform = process.env.PLATFORM,
     minimize = mode === 'production',
     devServer = undefined,
     bundleFilename = undefined,
@@ -48,6 +47,20 @@ export default (env) => {
    * to check its value to avoid accessing undefined value,
    * otherwise an error might occur.
    */
+  // if (devServer) {
+  //   devServer.hmr = false;
+  // }
+
+  /**
+   * Depending on your Babel configuration you might want to keep it.
+   * If you don't use `env` in your Babel config, you can remove it.
+   *
+   * Keep in mind that if you remove it you should set `BABEL_ENV` or `NODE_ENV`
+   * to `development` or `production`. Otherwise your production code might be compiled with
+   * in development mode by Babel.
+   */
+  process.env.BABEL_ENV = mode;
+
   return {
     mode,
     /**
@@ -92,10 +105,9 @@ export default (env) => {
      * React Native app use them when bundling the `.ipa`/`.apk`, they need to be copied over with
      * `Repack.OutputPlugin`, which is configured by default inside `Repack.RepackPlugin`.
      */
-
     output: {
       clean: true,
-      path: path.join(dirname, 'build', platform),
+      path: path.join(dirname, 'build/generated', platform),
       filename: 'index.bundle',
       chunkFilename: '[name].chunk.bundle',
       publicPath: Repack.getPublicPath({ platform, devServer }),
@@ -140,24 +152,6 @@ export default (env) => {
           include: [
             /node_modules(.*[/\\])+react/,
             /node_modules(.*[/\\])+@react-native/,
-            /node_modules(.*[/\\])+@react-navigation/,
-            /node_modules(.*[/\\])+@react-native-community/,
-            /node_modules(.*[/\\])+@expo/,
-            /node_modules(.*[/\\])+pretty-format/,
-            /node_modules(.*[/\\])+metro/,
-            /node_modules(.*[/\\])+abort-controller/,
-            /node_modules(.*[/\\])+@callstack\/repack/,
-            /node_modules(.*[/\\])+react-native-gesture-handler/,
-            /node_modules(.*[/\\])+react-native-device-info/,
-            /node_modules(.*[/\\])+@react-navigation\/stack/,
-            /node_modules(.*[/\\])+@nassa\/video-call/,
-            /node_modules(.*[/\\])+react-native-svg/,
-            /node_modules(.*[/\\])+css-select/,
-            /node_modules(.*[/\\])+css-tree/,
-            /node_modules(.*[/\\])+@apollo\/client/,
-            /node_modules(.*[/\\])+react-native-elements/,
-            /node_modules(.*[/\\])+react-native-vector-icons/,
-            /node_modules(.*[/\\])+react-native-linear-gradient/,
           ],
           use: 'babel-loader',
         },
@@ -192,9 +186,7 @@ export default (env) => {
          * ```
          */
         {
-          test: Repack.getAssetExtensionsRegExp(
-            Repack.ASSET_EXTENSIONS.filter((ext) => ext !== 'svg'),
-          ),
+          test: Repack.getAssetExtensionsRegExp(Repack.ASSET_EXTENSIONS),
           use: {
             loader: '@callstack/repack/assets-loader',
             options: {
@@ -208,18 +200,6 @@ export default (env) => {
               scalableAssetExtensions: Repack.SCALABLE_ASSETS,
             },
           },
-        },
-        {
-          test: /\.svg$/,
-          use: [
-            {
-              loader: '@svgr/webpack',
-              options: {
-                native: true,
-                dimensions: false,
-              },
-            },
-          ],
         },
       ],
     },
@@ -244,44 +224,10 @@ export default (env) => {
           assetsPath,
         },
       }),
-
-      new Repack.plugins.ModuleFederationPlugin({
-        name: 'app2',
-        exposes: {
-          './App2': './src/routes/MainNavigation.tsx',
-          './Feed': './src/Feed.tsx',
-          './Message': './src/Message.tsx',
-        },
-        shared: {
-          react: {
-            ...Repack.Federated.SHARED_REACT,
-            eager: STANDALONE, // to be figured out
-            requiredVersion: '18.1.0',
-          },
-          'react-native': {
-            ...Repack.Federated.SHARED_REACT_NATIVE,
-            eager: STANDALONE, // to be figured out
-            requiredVersion: '0.70.3',
-          },
-          'react-native-device-info': {
-            ...Repack.Federated.SHARED_REACT_NATIVE,
-          },
-          '@nassa/video-call': {
-            ...Repack.Federated.SHARED_REACT_NATIVE,
-          },
-          'react-native-svg': {
-            ...Repack.Federated.SHARED_REACT_NATIVE,
-          },
-          'react-native-elements': {
-            ...Repack.Federated.SHARED_REACT_NATIVE,
-          },
-          'react-native-vector-icons': {
-            ...Repack.Federated.SHARED_REACT_NATIVE,
-          },
-          'react-native-linear-gradient': {
-            ...Repack.Federated.SHARED_REACT_NATIVE,
-          },
-        },
+      new webpack.DllPlugin({
+        context,
+        name: '[name]_[fullhash]',
+        path: path.join(context, 'manifest.json'),
       }),
     ],
   };

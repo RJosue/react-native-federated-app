@@ -60,7 +60,6 @@ const LocalMainNavigation = () => {
           component={RefundWelcome}
           options={{
             headerShown: false,
-            header: () => {}
           }}
         />
         <LocalStack.Screen
